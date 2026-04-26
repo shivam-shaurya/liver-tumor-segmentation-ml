@@ -1,95 +1,125 @@
-# 🧠 Liver Tumor Segmentation using MONAI & PyTorch
+# 🧠 Liver Segmentation using MONAI and PyTorch
 
-Deep Learning-based medical image segmentation project for detecting liver tumors from CT scan data.
+This project implements a **3D medical image segmentation pipeline** using **MONAI and PyTorch** for liver segmentation from CT scan data. The same pipeline can be extended to segment other organs as well.
+
+---
+
+## 🖼️ Sample Output
+
+<p align="center">
+  <img src="images/liver_segmentation.PNG" width="500"/>
+</p>
 
 ---
 
 ## 📌 Overview
 
-This project implements a **3D medical image segmentation pipeline** using **MONAI and PyTorch** to segment liver regions and tumors from volumetric CT scans.
+The goal of this project is to perform **accurate liver segmentation** from volumetric medical images using deep learning techniques.
 
-The model is based on a **3D U-Net architecture**, widely used in medical imaging tasks for accurate pixel-level prediction.
+It includes:
 
----
-
-## 🚀 Key Features
-
-* 3D U-Net based segmentation model
-* Built using **MONAI (Medical Open Network for AI)**
-* Medical image preprocessing & transformations
+* Data preprocessing using MONAI
+* Training a 3D U-Net model
 * Visualization of CT scan slices and segmentation masks
-* Performance evaluation using **Dice Score**
+* Evaluation using standard segmentation metrics
 
 ---
 
-## 🧠 Tech Stack
+## ⚙️ Setup
 
-* Python
-* PyTorch
-* MONAI
-* NumPy
-* Matplotlib
+Clone the repository:
 
----
+```bash
+git clone https://github.com/shivam-shaurya/liver-tumor-segmentation-ml
+cd liver-tumor-segmentation-ml
+```
 
-## ⚙️ Model Architecture
+Install dependencies:
 
-* 3D U-Net (Encoder–Decoder structure)
-* Multi-level feature extraction
-* Skip connections for better localization
-
----
-
-## 🧪 Data Processing
-
-* Data loading using MONAI pipelines
-* Preprocessing and normalization
-* Augmentation for improved generalization
+```bash
+pip install monai
+pip install -r requirements.txt
+```
 
 ---
 
-## 👁️ Visualization
+## 🧪 Data Visualization
 
-Example function used to visualize CT scan slices and segmentation output:
+To better understand the dataset and preprocessing pipeline, the following utility function is used to visualize CT scan slices along with segmentation masks:
 
 ```python
 def show_patient(data, SLICE_NUMBER=1, train=True, test=False):
-    # Visualizes CT slice and segmentation mask
-    pass
+    """
+    Visualize CT scan slices and segmentation masks
+    """
 ```
 
-Helps in verifying preprocessing and model predictions visually.
+This helps in verifying preprocessing steps and inspecting model inputs.
+
+---
+
+## 🧠 Model Architecture
+
+The model is based on **3D U-Net**, implemented using MONAI:
+
+```python
+model = UNet(
+    dimensions=3,
+    in_channels=1,
+    out_channels=2,
+    channels=(16, 32, 64, 128, 256), 
+    strides=(2, 2, 2, 2),
+    num_res_units=2,
+    norm=Norm.BATCH,
+).to(device)
+```
+
+* Encoder–Decoder structure
+* Skip connections for better localization
+* Designed for volumetric segmentation tasks
 
 ---
 
 ## ▶️ Training
 
-Model is trained using MONAI’s training pipeline:
-
-* Loss Function: Dice Loss
-* Optimizer: Adam
-* Input: 3D CT volumes
-* Output: Segmentation masks
-
-Run training:
+Training is performed using the script:
 
 ```bash
 python train.py
 ```
 
+The pipeline includes:
+
+* Preprocessing using MONAI transforms
+* Batch training on 3D CT volumes
+* Optimization using Dice-based loss
+
 ---
 
-## 📊 Evaluation Metrics
+## 📊 Results & Performance
 
-* Dice Coefficient
-* Intersection over Union (IoU)
+<p align="center">
+  <img src="images/graphs.PNG" width="600"/>
+</p>
+
+The model demonstrates:
+
+* Stable training convergence
+* Effective segmentation of liver regions
+* Accurate boundary detection in CT slices
 
 ---
 
-## 📈 Results
+## 🧪 Testing
 
-* Achieved strong segmentation performance on validation data
-* Accurate detection of liver regions and tumor boundaries
+Model evaluation and visualization of predictions are performed using:
+
+* `testing.ipynb`
+* Includes:
+
+  * Loss curves
+  * Dice score trends
+  * Output predictions on test data
 
 ---
 
@@ -99,15 +129,15 @@ python train.py
 ├── train.py
 ├── preprocess.py
 ├── testing.ipynb
-├── dataset/
 ├── images/
+├── dataset/
 ```
 
 ---
 
 ## ⚠️ Note
 
-This project is implemented for learning and experimentation using publicly available resources and medical imaging frameworks.
+This project is implemented for learning and experimentation using publicly available medical imaging frameworks and resources.
 
 ---
 
